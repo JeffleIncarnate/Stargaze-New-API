@@ -11,8 +11,6 @@ createPaymentIntent.post(
     // Verify the data they entered was actually correct
     let items: CartItem[] = req.body;
 
-    for (let i = 0; i < 2_000_000_000; i++) {}
-
     for (let i = 0; i < items.length; i++) {
       if (!ACTUAL_ITEMS.includes(items[i].id)) {
         return res.sendStatus(400);
