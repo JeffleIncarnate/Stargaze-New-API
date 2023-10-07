@@ -7,6 +7,13 @@ interface CartItem {
   size: string;
 }
 
+interface Description {
+  id: string;
+  quantity: number;
+  size: string;
+  shirtName: string;
+}
+
 const ITEMS = {
   "1": {
     cost: 45,
@@ -16,4 +23,4 @@ const ITEMS = {
   },
 };
 
-export { ITEMS, CartItem, ACTUAL_ITEMS, ACTUAL_SIZES };
+export { ITEMS, CartItem, Description, ACTUAL_ITEMS, ACTUAL_SIZES };
