@@ -27,6 +27,10 @@ createPaymentIntent.post(
       if (!ACTUAL_SIZES.includes(items[i].size)) {
         return res.sendStatus(400);
       }
+
+      if (items[i].quantity >= 0) {
+        return res.sendStatus(400);
+      }
     }
 
     let total = 0;
