@@ -17,8 +17,6 @@ createPaymentIntent.post(
     // Verify the data they entered was actually correct
     let items = req.body;
 
-    let description: Description[] = [];
-
     for (let i = 0; i < items.length; i++) {
       if (!ACTUAL_ITEMS.includes(items[i].id)) {
         return res.sendStatus(400);
@@ -31,12 +29,6 @@ createPaymentIntent.post(
       if (items[i].quantity <= 0) {
         return res.sendStatus(400);
       }
-
-      // create the description
-      description.push({
-        ...items[i],
-        shirtName: items[i].id === "1" ? "CMWYSG" : "OG HEART",
-      });
     }
 
     let total = 0;
@@ -60,7 +52,7 @@ createPaymentIntent.post(
         automatic_payment_methods: {
           enabled: true,
         },
-        description: JSON.stringify(description),
+        description: items,
       });
 
       return res.send({
