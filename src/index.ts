@@ -10,12 +10,12 @@ app.use(express.json());
 // Import Routes
 import { config } from "./routes/config";
 import { createPaymentIntent } from "./routes/createPaymentIntent";
-import { webhook } from "./routes/webhook";
+// import { webhook } from "./routes/webhook";
 
 // Use Routes
 app.use("/config", config); // sends the publishable key to the client
 app.post("/create-payment-intent", createPaymentIntent); // Create Payment intent for client
-app.post("/webhook", webhook);
+// app.post("/webhook", webhook);
 
 // Test endpoint to confirm API is working
 app.get("/", (req: Request, res: Response) => {
