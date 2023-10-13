@@ -47,12 +47,12 @@ createPaymentIntent.post(
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
+        description: JSON.stringify(items),
         currency: "nzd",
         amount: total,
         automatic_payment_methods: {
           enabled: true,
         },
-        description: items,
       });
 
       return res.send({
