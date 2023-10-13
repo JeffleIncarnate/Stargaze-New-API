@@ -15,7 +15,7 @@ createPaymentIntent.post(
   "/create-payment-intent",
   async (req: Request, res: Response) => {
     // Verify the data they entered was actually correct
-    let items: CartItem[] = req.body;
+    let items = req.body;
 
     let description: Description[] = [];
 
@@ -28,9 +28,15 @@ createPaymentIntent.post(
         return res.sendStatus(400);
       }
 
-      if (items[i].quantity >= 0) {
+      if (items[i].quantity <= 0) {
         return res.sendStatus(400);
       }
+
+      // create the description
+      description.push({
+        ...items[i],
+        shirtName: items[i].id === "1" ? "CMWYSG" : "OG HEART",
+      });
     }
 
     let total = 0;
@@ -46,19 +52,6 @@ createPaymentIntent.post(
 
     // Convert to cents
     total *= 100;
-
-    // Create a description
-    for (let i = 0; i < items.length; i++) {
-      description.push({
-        ...items[i],
-        shirtName:
-          items[i].id === "1"
-            ? "CMWYSG TEE"
-            : items[i].id === "2"
-            ? "STRGZE OG TEE"
-            : "Unknown Items",
-      });
-    }
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
