@@ -47,7 +47,7 @@ createPaymentIntent.post(
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
-        description: "e",
+        description: JSON.stringify(items),
         currency: "nzd",
         amount: total,
         automatic_payment_methods: {
