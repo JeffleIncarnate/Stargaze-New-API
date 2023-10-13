@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ACTUAL_SIZES = exports.ACTUAL_ITEMS = exports.ITEMS = void 0;
-var ACTUAL_ITEMS = ["1", "2"];
+const ACTUAL_ITEMS = ["1", "2"];
 exports.ACTUAL_ITEMS = ACTUAL_ITEMS;
-var ACTUAL_SIZES = ["small", "medium", "large"];
+const ACTUAL_SIZES = ["small", "medium", "large"];
 exports.ACTUAL_SIZES = ACTUAL_SIZES;
-var ITEMS = {
+const ITEMS = {
     "1": {
         cost: 45,
     },
