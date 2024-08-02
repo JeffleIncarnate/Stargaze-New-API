@@ -14,13 +14,16 @@ createPaymentIntent.post("/create-payment-intent", async (req, res) => {
     let items = req.body;
     for (let i = 0; i < items.length; i++) {
         if (!data_1.ACTUAL_ITEMS.includes(items[i].id)) {
-            return res.sendStatus(400);
+            console.log("i died HERE");
+            return res.sendStatus(401);
         }
         if (!data_1.ACTUAL_SIZES.includes(items[i].size)) {
-            return res.sendStatus(400);
+            console.log("i died HERE x2");
+            return res.sendStatus(402);
         }
         if (items[i].quantity <= 0) {
-            return res.sendStatus(400);
+            console.log("i died HERE x3");
+            return res.sendStatus(403);
         }
     }
     let total = 0;
@@ -29,10 +32,12 @@ createPaymentIntent.post("/create-payment-intent", async (req, res) => {
         total +=
             data_1.ITEMS[items[i].id].cost * items[i].quantity;
     }
-    // GST
-    total += total * 0.15;
+    // Shipping cost
+    total += 5;
     // Convert to cents
     total *= 100;
+    total = Math.round(total * 10) / 10;
+    console.log(total);
     try {
         JSON.stringify(items);
         const paymentIntent = await stripe_1.stripe.paymentIntents.create({
@@ -48,6 +53,7 @@ createPaymentIntent.post("/create-payment-intent", async (req, res) => {
         });
     }
     catch (err) {
+        console.log("I died here?");
         return res.status(400).send({
             error: {
                 message: err.message,

@@ -1,12 +1,6 @@
 import express, { Router, Request, Response } from "express";
 
-import {
-  CartItem,
-  Description,
-  ACTUAL_ITEMS,
-  ACTUAL_SIZES,
-  ITEMS,
-} from "../core/data/data";
+import { ACTUAL_ITEMS, ACTUAL_SIZES, ITEMS } from "../core/data/data";
 import { stripe } from "../core/stripe/stripe";
 
 const createPaymentIntent: Router = express.Router();
@@ -19,15 +13,18 @@ createPaymentIntent.post(
 
     for (let i = 0; i < items.length; i++) {
       if (!ACTUAL_ITEMS.includes(items[i].id)) {
-        return res.sendStatus(400);
+        console.log("i died HERE");
+        return res.sendStatus(401);
       }
 
       if (!ACTUAL_SIZES.includes(items[i].size)) {
-        return res.sendStatus(400);
+        console.log("i died HERE x2");
+        return res.sendStatus(402);
       }
 
       if (items[i].quantity <= 0) {
-        return res.sendStatus(400);
+        console.log("i died HERE x3");
+        return res.sendStatus(403);
       }
     }
 
@@ -39,11 +36,15 @@ createPaymentIntent.post(
         ITEMS[items[i].id as keyof typeof ITEMS].cost * items[i].quantity;
     }
 
-    // GST
-    total += total * 0.15;
+    // Shipping cost
+    total += 5;
 
     // Convert to cents
     total *= 100;
+
+    total = Math.round(total * 10) / 10;
+
+    console.log(total);
 
     try {
       JSON.stringify(items);
@@ -61,6 +62,7 @@ createPaymentIntent.post(
         clientSecret: paymentIntent.client_secret,
       });
     } catch (err: any) {
+      console.log("I died here?");
       return res.status(400).send({
         error: {
           message: err.message,
